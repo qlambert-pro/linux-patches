@@ -1,7 +1,30 @@
-Index: linux-next/drivers/ata/acard-ahci.c
-===================================================================
---- linux-next.orig/drivers/ata/acard-ahci.c
-+++ linux-next/drivers/ata/acard-ahci.c
+---
+ drivers/ata/acard-ahci.c    |   10 +++++-----
+ drivers/ata/ahci.c          |   10 +++++-----
+ drivers/ata/libata-sff.c    |    4 ++--
+ drivers/ata/pata_atp867x.c  |    4 ++--
+ drivers/ata/pata_cs5520.c   |    4 ++--
+ drivers/ata/pata_hpt3x3.c   |    4 ++--
+ drivers/ata/pata_ninja32.c  |    4 ++--
+ drivers/ata/pata_pdc2027x.c |    4 ++--
+ drivers/ata/pata_scc.c      |    4 ++--
+ drivers/ata/pata_sil680.c   |    4 ++--
+ drivers/ata/pdc_adma.c      |    4 ++--
+ drivers/ata/sata_inic162x.c |    4 ++--
+ drivers/ata/sata_mv.c       |   10 +++++-----
+ drivers/ata/sata_nv.c       |    4 ++--
+ drivers/ata/sata_promise.c  |    4 ++--
+ drivers/ata/sata_qstor.c    |   10 +++++-----
+ drivers/ata/sata_sil.c      |    4 ++--
+ drivers/ata/sata_sil24.c    |   10 +++++-----
+ drivers/ata/sata_svw.c      |    4 ++--
+ drivers/ata/sata_sx4.c      |    4 ++--
+ drivers/ata/sata_via.c      |    4 ++--
+ drivers/ata/sata_vsc.c      |    4 ++--
+ 22 files changed, 59 insertions(+), 59 deletions(-)
+
+--- a/drivers/ata/acard-ahci.c
++++ b/drivers/ata/acard-ahci.c
 @@ -181,10 +181,10 @@ static int acard_ahci_configure_dma_mask
  	int rc;
  
@@ -31,10 +54,8 @@ Index: linux-next/drivers/ata/acard-ahci.c
  		if (rc) {
  			dev_err(&pdev->dev,
  				"32-bit consistent DMA enable failed\n");
-Index: linux-next/drivers/ata/ahci.c
-===================================================================
---- linux-next.orig/drivers/ata/ahci.c
-+++ linux-next/drivers/ata/ahci.c
+--- a/drivers/ata/ahci.c
++++ b/drivers/ata/ahci.c
 @@ -738,10 +738,10 @@ static int ahci_configure_dma_masks(stru
  		return 0;
  
@@ -64,10 +85,40 @@ Index: linux-next/drivers/ata/ahci.c
  		if (rc) {
  			dev_err(&pdev->dev,
  				"32-bit consistent DMA enable failed\n");
-Index: linux-next/drivers/ata/pata_cs5520.c
-===================================================================
---- linux-next.orig/drivers/ata/pata_cs5520.c
-+++ linux-next/drivers/ata/pata_cs5520.c
+--- a/drivers/ata/libata-sff.c
++++ b/drivers/ata/libata-sff.c
+@@ -3220,11 +3220,11 @@ void ata_pci_bmdma_init(struct ata_host
+ 	 * ->sff_irq_clear method.  Try to initialize bmdma_addr
+ 	 * regardless of dma masks.
+ 	 */
+-	rc = pci_set_dma_mask(pdev, ATA_DMA_MASK);
++	rc = dma_set_mask(&pdev->dev, ATA_DMA_MASK);
+ 	if (rc)
+ 		ata_bmdma_nodma(host, "failed to set dma mask");
+ 	if (!rc) {
+-		rc = pci_set_consistent_dma_mask(pdev, ATA_DMA_MASK);
++		rc = dma_set_coherent_mask(&pdev->dev, ATA_DMA_MASK);
+ 		if (rc)
+ 			ata_bmdma_nodma(host,
+ 					"failed to set consistent dma mask");
+--- a/drivers/ata/pata_atp867x.c
++++ b/drivers/ata/pata_atp867x.c
+@@ -475,11 +475,11 @@ static int atp867x_ata_pci_sff_init_host
+ 
+ 	atp867x_fixup(host);
+ 
+-	rc = pci_set_dma_mask(pdev, ATA_DMA_MASK);
++	rc = dma_set_mask(&pdev->dev, ATA_DMA_MASK);
+ 	if (rc)
+ 		return rc;
+ 
+-	rc = pci_set_consistent_dma_mask(pdev, ATA_DMA_MASK);
++	rc = dma_set_coherent_mask(&pdev->dev, ATA_DMA_MASK);
+ 	return rc;
+ }
+ 
+--- a/drivers/ata/pata_cs5520.c
++++ b/drivers/ata/pata_cs5520.c
 @@ -164,11 +164,11 @@ static int cs5520_init_one(struct pci_de
  		return -ENODEV;
  	}
@@ -82,10 +133,8 @@ Index: linux-next/drivers/ata/pata_cs5520.c
  		printk(KERN_ERR DRV_NAME ": unable to configure consistent DMA mask.\n");
  		return -ENODEV;
  	}
-Index: linux-next/drivers/ata/pata_hpt3x3.c
-===================================================================
---- linux-next.orig/drivers/ata/pata_hpt3x3.c
-+++ linux-next/drivers/ata/pata_hpt3x3.c
+--- a/drivers/ata/pata_hpt3x3.c
++++ b/drivers/ata/pata_hpt3x3.c
 @@ -221,10 +221,10 @@ static int hpt3x3_init_one(struct pci_de
  	if (rc)
  		return rc;
@@ -99,10 +148,8 @@ Index: linux-next/drivers/ata/pata_hpt3x3.c
  	if (rc)
  		return rc;
  
-Index: linux-next/drivers/ata/pata_ninja32.c
-===================================================================
---- linux-next.orig/drivers/ata/pata_ninja32.c
-+++ linux-next/drivers/ata/pata_ninja32.c
+--- a/drivers/ata/pata_ninja32.c
++++ b/drivers/ata/pata_ninja32.c
 @@ -122,10 +122,10 @@ static int ninja32_init_one(struct pci_d
  		return rc;
  
@@ -116,10 +163,8 @@ Index: linux-next/drivers/ata/pata_ninja32.c
  	if (rc)
  		return rc;
  	pci_set_master(dev);
-Index: linux-next/drivers/ata/pata_pdc2027x.c
-===================================================================
---- linux-next.orig/drivers/ata/pata_pdc2027x.c
-+++ linux-next/drivers/ata/pata_pdc2027x.c
+--- a/drivers/ata/pata_pdc2027x.c
++++ b/drivers/ata/pata_pdc2027x.c
 @@ -730,11 +730,11 @@ static int pdc2027x_init_one(struct pci_
  		return rc;
  	host->iomap = pcim_iomap_table(pdev);
@@ -134,10 +179,23 @@ Index: linux-next/drivers/ata/pata_pdc2027x.c
  	if (rc)
  		return rc;
  
-Index: linux-next/drivers/ata/pata_sil680.c
-===================================================================
---- linux-next.orig/drivers/ata/pata_sil680.c
-+++ linux-next/drivers/ata/pata_sil680.c
+--- a/drivers/ata/pata_scc.c
++++ b/drivers/ata/pata_scc.c
+@@ -1029,10 +1029,10 @@ static int scc_host_init(struct ata_host
+ 	if (rc)
+ 		return rc;
+ 
+-	rc = pci_set_dma_mask(pdev, ATA_DMA_MASK);
++	rc = dma_set_mask(&pdev->dev, ATA_DMA_MASK);
+ 	if (rc)
+ 		return rc;
+-	rc = pci_set_consistent_dma_mask(pdev, ATA_DMA_MASK);
++	rc = dma_set_coherent_mask(&pdev->dev, ATA_DMA_MASK);
+ 	if (rc)
+ 		return rc;
+ 
+--- a/drivers/ata/pata_sil680.c
++++ b/drivers/ata/pata_sil680.c
 @@ -374,10 +374,10 @@ static int sil680_init_one(struct pci_de
  	host->iomap = pcim_iomap_table(pdev);
  
@@ -151,10 +209,8 @@ Index: linux-next/drivers/ata/pata_sil680.c
  	if (rc)
  		return rc;
  	pci_set_master(pdev);
-Index: linux-next/drivers/ata/pdc_adma.c
-===================================================================
---- linux-next.orig/drivers/ata/pdc_adma.c
-+++ linux-next/drivers/ata/pdc_adma.c
+--- a/drivers/ata/pdc_adma.c
++++ b/drivers/ata/pdc_adma.c
 @@ -593,12 +593,12 @@ static int adma_set_dma_masks(struct pci
  {
  	int rc;
@@ -170,10 +226,8 @@ Index: linux-next/drivers/ata/pdc_adma.c
  	if (rc) {
  		dev_err(&pdev->dev, "32-bit consistent DMA enable failed\n");
  		return rc;
-Index: linux-next/drivers/ata/sata_inic162x.c
-===================================================================
---- linux-next.orig/drivers/ata/sata_inic162x.c
-+++ linux-next/drivers/ata/sata_inic162x.c
+--- a/drivers/ata/sata_inic162x.c
++++ b/drivers/ata/sata_inic162x.c
 @@ -856,13 +856,13 @@ static int inic_init_one(struct pci_dev
  	}
  
@@ -190,10 +244,8 @@ Index: linux-next/drivers/ata/sata_inic162x.c
  	if (rc) {
  		dev_err(&pdev->dev, "32-bit consistent DMA enable failed\n");
  		return rc;
-Index: linux-next/drivers/ata/sata_mv.c
-===================================================================
---- linux-next.orig/drivers/ata/sata_mv.c
-+++ linux-next/drivers/ata/sata_mv.c
+--- a/drivers/ata/sata_mv.c
++++ b/drivers/ata/sata_mv.c
 @@ -4320,10 +4320,10 @@ static int pci_go_64(struct pci_dev *pde
  {
  	int rc;
@@ -223,10 +275,23 @@ Index: linux-next/drivers/ata/sata_mv.c
  		if (rc) {
  			dev_err(&pdev->dev,
  				"32-bit consistent DMA enable failed\n");
-Index: linux-next/drivers/ata/sata_promise.c
-===================================================================
---- linux-next.orig/drivers/ata/sata_promise.c
-+++ linux-next/drivers/ata/sata_promise.c
+--- a/drivers/ata/sata_nv.c
++++ b/drivers/ata/sata_nv.c
+@@ -756,10 +756,10 @@ static int nv_adma_slave_config(struct s
+ 			blk_queue_bounce_limit(sdev1->request_queue,
+ 					       ATA_DMA_MASK);
+ 
+-		pci_set_dma_mask(pdev, ATA_DMA_MASK);
++		dma_set_mask(&pdev->dev, ATA_DMA_MASK);
+ 	} else {
+ 		/** This shouldn't fail as it was set to this value before */
+-		pci_set_dma_mask(pdev, pp->adma_dma_mask);
++		dma_set_mask(&pdev->dev, pp->adma_dma_mask);
+ 		if (sdev0)
+ 			blk_queue_bounce_limit(sdev0->request_queue,
+ 					       pp->adma_dma_mask);
+--- a/drivers/ata/sata_promise.c
++++ b/drivers/ata/sata_promise.c
 @@ -1246,10 +1246,10 @@ static int pdc_ata_init_one(struct pci_d
  	/* initialize adapter */
  	pdc_host_init(host);
@@ -240,10 +305,8 @@ Index: linux-next/drivers/ata/sata_promise.c
  	if (rc)
  		return rc;
  
-Index: linux-next/drivers/ata/sata_qstor.c
-===================================================================
---- linux-next.orig/drivers/ata/sata_qstor.c
-+++ linux-next/drivers/ata/sata_qstor.c
+--- a/drivers/ata/sata_qstor.c
++++ b/drivers/ata/sata_qstor.c
 @@ -557,10 +557,10 @@ static int qs_set_dma_masks(struct pci_d
  	int rc, have_64bit_bus = (bus_info & QS_HPHY_64BIT);
  
@@ -273,10 +336,8 @@ Index: linux-next/drivers/ata/sata_qstor.c
  		if (rc) {
  			dev_err(&pdev->dev,
  				"32-bit consistent DMA enable failed\n");
-Index: linux-next/drivers/ata/sata_sil.c
-===================================================================
---- linux-next.orig/drivers/ata/sata_sil.c
-+++ linux-next/drivers/ata/sata_sil.c
+--- a/drivers/ata/sata_sil.c
++++ b/drivers/ata/sata_sil.c
 @@ -770,10 +770,10 @@ static int sil_init_one(struct pci_dev *
  		return rc;
  	host->iomap = pcim_iomap_table(pdev);
@@ -290,10 +351,8 @@ Index: linux-next/drivers/ata/sata_sil.c
  	if (rc)
  		return rc;
  
-Index: linux-next/drivers/ata/sata_sil24.c
-===================================================================
---- linux-next.orig/drivers/ata/sata_sil24.c
-+++ linux-next/drivers/ata/sata_sil24.c
+--- a/drivers/ata/sata_sil24.c
++++ b/drivers/ata/sata_sil24.c
 @@ -1312,10 +1312,10 @@ static int sil24_init_one(struct pci_dev
  	host->iomap = iomap;
  
@@ -323,44 +382,8 @@ Index: linux-next/drivers/ata/sata_sil24.c
  		if (rc) {
  			dev_err(&pdev->dev,
  				"32-bit consistent DMA enable failed\n");
-Index: linux-next/drivers/ata/sata_via.c
-===================================================================
---- linux-next.orig/drivers/ata/sata_via.c
-+++ linux-next/drivers/ata/sata_via.c
-@@ -502,10 +502,10 @@ static int vt6421_prepare_host(struct pc
- 	for (i = 0; i < host->n_ports; i++)
- 		vt6421_init_addrs(host->ports[i]);
- 
--	rc = pci_set_dma_mask(pdev, ATA_DMA_MASK);
-+	rc = dma_set_mask(&pdev->dev, ATA_DMA_MASK);
- 	if (rc)
- 		return rc;
--	rc = pci_set_consistent_dma_mask(pdev, ATA_DMA_MASK);
-+	rc = dma_set_coherent_mask(&pdev->dev, ATA_DMA_MASK);
- 	if (rc)
- 		return rc;
- 
-Index: linux-next/drivers/ata/sata_vsc.c
-===================================================================
---- linux-next.orig/drivers/ata/sata_vsc.c
-+++ linux-next/drivers/ata/sata_vsc.c
-@@ -387,10 +387,10 @@ static int vsc_sata_init_one(struct pci_
- 	/*
- 	 * Use 32 bit DMA mask, because 64 bit address support is poor.
- 	 */
--	rc = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
-+	rc = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
- 	if (rc)
- 		return rc;
--	rc = pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(32));
-+	rc = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
- 	if (rc)
- 		return rc;
- 
-Index: linux-next/drivers/ata/sata_svw.c
-===================================================================
---- linux-next.orig/drivers/ata/sata_svw.c
-+++ linux-next/drivers/ata/sata_svw.c
+--- a/drivers/ata/sata_svw.c
++++ b/drivers/ata/sata_svw.c
 @@ -487,10 +487,10 @@ static int k2_sata_init_one(struct pci_d
  		ata_port_pbar_desc(ap, 5, offset, "port");
  	}
@@ -374,10 +397,8 @@ Index: linux-next/drivers/ata/sata_svw.c
  	if (rc)
  		return rc;
  
-Index: linux-next/drivers/ata/sata_sx4.c
-===================================================================
---- linux-next.orig/drivers/ata/sata_sx4.c
-+++ linux-next/drivers/ata/sata_sx4.c
+--- a/drivers/ata/sata_sx4.c
++++ b/drivers/ata/sata_sx4.c
 @@ -1476,10 +1476,10 @@ static int pdc_sata_init_one(struct pci_
  	}
  
@@ -388,6 +409,36 @@ Index: linux-next/drivers/ata/sata_sx4.c
  		return rc;
 -	rc = pci_set_consistent_dma_mask(pdev, ATA_DMA_MASK);
 +	rc = dma_set_coherent_mask(&pdev->dev, ATA_DMA_MASK);
+ 	if (rc)
+ 		return rc;
+ 
+--- a/drivers/ata/sata_via.c
++++ b/drivers/ata/sata_via.c
+@@ -502,10 +502,10 @@ static int vt6421_prepare_host(struct pc
+ 	for (i = 0; i < host->n_ports; i++)
+ 		vt6421_init_addrs(host->ports[i]);
+ 
+-	rc = pci_set_dma_mask(pdev, ATA_DMA_MASK);
++	rc = dma_set_mask(&pdev->dev, ATA_DMA_MASK);
+ 	if (rc)
+ 		return rc;
+-	rc = pci_set_consistent_dma_mask(pdev, ATA_DMA_MASK);
++	rc = dma_set_coherent_mask(&pdev->dev, ATA_DMA_MASK);
+ 	if (rc)
+ 		return rc;
+ 
+--- a/drivers/ata/sata_vsc.c
++++ b/drivers/ata/sata_vsc.c
+@@ -387,10 +387,10 @@ static int vsc_sata_init_one(struct pci_
+ 	/*
+ 	 * Use 32 bit DMA mask, because 64 bit address support is poor.
+ 	 */
+-	rc = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
++	rc = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+ 	if (rc)
+ 		return rc;
+-	rc = pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(32));
++	rc = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
  	if (rc)
  		return rc;
  
