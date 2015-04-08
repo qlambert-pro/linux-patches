@@ -1,3 +1,55 @@
+Subject: [PATCH] ata: remove deprecated use of pci api
+
+Replace occurences of the pci api by appropriate call to the dma api.
+
+A simplified version of the semantic patch that finds this problem is as
+follows: (http://coccinelle.lip6.fr)
+
+@deprecated@
+idexpression id;
+position p;
+@@
+
+(
+  pci_dma_supported@p ( id, ...)
+|
+  pci_alloc_consistent@p ( id, ...)
+)
+
+@bad1@
+idexpression id;
+position deprecated.p;
+@@
+...when != &id->dev
+   when != pci_get_drvdata ( id )
+   when != pci_enable_device ( id )
+(
+  pci_dma_supported@p ( id, ...)
+|
+  pci_alloc_consistent@p ( id, ...)
+)
+
+@depends on !bad1@
+idexpression id;
+expression direction;
+position deprecated.p;
+@@
+
+(
+- pci_dma_supported@p ( id,
++ dma_supported ( &id->dev,
+...
++ , GFP_ATOMIC
+  )
+|
+- pci_alloc_consistent@p ( id,
++ dma_alloc_coherent ( &id->dev,
+...
++ , GFP_ATOMIC
+  )
+)
+
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 ---
  drivers/ata/acard-ahci.c    |   10 +++++-----
  drivers/ata/ahci.c          |   10 +++++-----
@@ -12,7 +64,7 @@
  drivers/ata/pdc_adma.c      |    4 ++--
  drivers/ata/sata_inic162x.c |    4 ++--
  drivers/ata/sata_mv.c       |   10 +++++-----
- drivers/ata/sata_nv.c       |    4 ++--
+ drivers/ata/sata_nv.c       |   12 ++++++------
  drivers/ata/sata_promise.c  |    4 ++--
  drivers/ata/sata_qstor.c    |   10 +++++-----
  drivers/ata/sata_sil.c      |    4 ++--
@@ -21,7 +73,7 @@
  drivers/ata/sata_sx4.c      |    4 ++--
  drivers/ata/sata_via.c      |    4 ++--
  drivers/ata/sata_vsc.c      |    4 ++--
- 22 files changed, 59 insertions(+), 59 deletions(-)
+ 22 files changed, 63 insertions(+), 63 deletions(-)
 
 --- a/drivers/ata/acard-ahci.c
 +++ b/drivers/ata/acard-ahci.c
@@ -290,6 +342,30 @@
  		if (sdev0)
  			blk_queue_bounce_limit(sdev0->request_queue,
  					       pp->adma_dma_mask);
+@@ -1133,10 +1133,10 @@ static int nv_adma_port_start(struct ata
+ 
+ 	/* Ensure DMA mask is set to 32-bit before allocating legacy PRD and
+ 	   pad buffers */
+-	rc = pci_set_dma_mask(pdev, DMA_BIT_MASK(32));
++	rc = dma_set_mask(&pdev->dev, DMA_BIT_MASK(32));
+ 	if (rc)
+ 		return rc;
+-	rc = pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(32));
++	rc = dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(32));
+ 	if (rc)
+ 		return rc;
+ 
+@@ -1161,8 +1161,8 @@ static int nv_adma_port_start(struct ata
+ 	   These are allowed to fail since we store the value that ends up
+ 	   being used to set as the bounce limit in slave_config later if
+ 	   needed. */
+-	pci_set_dma_mask(pdev, DMA_BIT_MASK(64));
+-	pci_set_consistent_dma_mask(pdev, DMA_BIT_MASK(64));
++	dma_set_mask(&pdev->dev, DMA_BIT_MASK(64));
++	dma_set_coherent_mask(&pdev->dev, DMA_BIT_MASK(64));
+ 	pp->adma_dma_mask = *dev->dma_mask;
+ 
+ 	mem = dmam_alloc_coherent(dev, NV_ADMA_PORT_PRIV_DMA_SZ,
 --- a/drivers/ata/sata_promise.c
 +++ b/drivers/ata/sata_promise.c
 @@ -1246,10 +1246,10 @@ static int pdc_ata_init_one(struct pci_d
