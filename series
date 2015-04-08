@@ -1,2 +1,3 @@
 pci2dma-ata.patch
 pci2dma-ide.patch
+atomic2kernel-ide.patch
