@@ -1,3 +1,11 @@
+Subject: [PATCH 2/2] ide: replace GFP_ATOMIC by GFP_KERNEL
+
+Both pmac_ide_init_dma and ide_dma_sgiioc4 are stored in the init_dma field of
+an ide_port_info structure. This field seems to only be called from contexts
+where sleep is allowed. Therefore, this patch replaces uses of GFP_ATOMIC by
+GFP_KERNEL.
+
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 ---
  drivers/ide/pmac.c    |    2 +-
  drivers/ide/sgiioc4.c |    2 +-

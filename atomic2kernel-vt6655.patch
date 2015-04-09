@@ -1,0 +1,29 @@
+Subject: [PATCH] staging: vt6655: replace GFP_ATOMIC by GFP_KERNEL
+
+This patch replaces uses of GFP_ATOMIC by GFP_KERNEL.
+
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
+---
+ drivers/staging/vt6655/device_main.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+--- a/drivers/staging/vt6655/device_main.c
++++ b/drivers/staging/vt6655/device_main.c
+@@ -535,7 +535,7 @@ static bool device_init_rings(struct vnt
+ 					 pDevice->sOpts.nRxDescs1 * sizeof(SRxDesc) +
+ 					 pDevice->sOpts.nTxDescs[0] * sizeof(STxDesc) +
+ 					 pDevice->sOpts.nTxDescs[1] * sizeof(STxDesc),
+-					 &pDevice->pool_dma, GFP_ATOMIC);
++					 &pDevice->pool_dma, GFP_KERNEL);
+ 	if (vir_pool == NULL) {
+ 		dev_err(&pDevice->pcid->dev, "allocate desc dma memory failed\n");
+ 		return false;
+@@ -555,7 +555,7 @@ static bool device_init_rings(struct vnt
+ 						  CB_BEACON_BUF_SIZE +
+ 						  CB_MAX_BUF_SIZE,
+ 						  &pDevice->tx_bufs_dma0,
+-						  GFP_ATOMIC);
++						  GFP_KERNEL);
+ 	if (pDevice->tx0_bufs == NULL) {
+ 		dev_err(&pDevice->pcid->dev, "allocate buf dma memory failed\n");
+ 
