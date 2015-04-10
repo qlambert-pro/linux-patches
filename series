@@ -1,3 +1,2 @@
 pci2dma-ide.patch
-atomic2kernel-ide.patch
 atomic2kernel-vt6655.patch

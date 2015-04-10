@@ -79,7 +79,7 @@ Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 +	pmif->dma_table_cpu = dma_alloc_coherent(&dev->dev,
  		(MAX_DCMDS + 2) * sizeof(struct dbdma_cmd),
 -		&hwif->dmatable_dma);
-+		&hwif->dmatable_dma, GFP_ATOMIC);
++		&hwif->dmatable_dma, GFP_KERNEL);
  	if (pmif->dma_table_cpu == NULL) {
  		printk(KERN_ERR "%s: unable to allocate DMA command list\n",
  		       hwif->name);
@@ -103,7 +103,7 @@ Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 -	pad = pci_alloc_consistent(dev, IOC4_IDE_CACHELINE_SIZE,
 -				   (dma_addr_t *)&hwif->extra_base);
 +	pad = dma_alloc_coherent(&dev->dev, IOC4_IDE_CACHELINE_SIZE,
-+				   (dma_addr_t *)&hwif->extra_base, GFP_ATOMIC);
++				   (dma_addr_t *)&hwif->extra_base, GFP_KERNEL);
  	if (pad) {
  		ide_set_hwifdata(hwif, pad);
  		return 0;
