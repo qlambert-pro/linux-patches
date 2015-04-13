@@ -1,4 +1,4 @@
-Subject: [PATCH 1/2] ide: remove deprecated use of pci api
+Subject: [PATCH v2] ide: remove deprecated use of pci api
 
 Replace occurences of the pci api by appropriate call to the dma api.
 
@@ -51,6 +51,10 @@ position deprecated.p;
 
 Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 ---
+ Changes since v1:
+  - fold the two patches into one, GFP_ATOMIC is now replaced by
+    GFP_KERNEL
+
  drivers/ide/cs5520.c    |    2 +-
  drivers/ide/pmac.c      |    5 ++---
  drivers/ide/setup-pci.c |    2 +-
