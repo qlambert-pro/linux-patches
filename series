@@ -1,4 +1,3 @@
-pci2dma-ide.patch
 atomic2kernel-vt6655.patch
 pci2dma-memstick.patch
 pci2dma-sound.patch
