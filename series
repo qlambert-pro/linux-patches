@@ -1,5 +1,4 @@
 atomic2kernel-vt6655.patch
-pci2dma-memstick.patch
 pci2dma-sound.patch
 pci2dma-emu10k1x.patch
 attrs2groups-sound.patch
