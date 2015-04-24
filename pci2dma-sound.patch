@@ -260,7 +260,7 @@ Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
  		pci_disable_device(pci);
 --- a/sound/pci/hda/hda_intel.c
 +++ b/sound/pci/hda/hda_intel.c
-@@ -1528,11 +1528,11 @@ static int azx_first_init(struct azx *ch
+@@ -1531,11 +1531,11 @@ static int azx_first_init(struct azx *ch
  	/* allow 64bit DMA address if supported by H/W */
  	if (!(gcap & AZX_GCAP_64OK))
  		dma_bits = 32;
