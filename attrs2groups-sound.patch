@@ -1,3 +1,42 @@
 ---
- 0 files changed
+ sound/aoa/soundbus/core.c  |    2 +-
+ sound/aoa/soundbus/sysfs.c |   15 ++++++++++-----
+ 2 files changed, 11 insertions(+), 6 deletions(-)
 
+--- a/sound/aoa/soundbus/core.c
++++ b/sound/aoa/soundbus/core.c
+@@ -160,7 +160,7 @@ static struct bus_type soundbus_bus_type
+ 	.suspend	= soundbus_device_suspend,
+ 	.resume		= soundbus_device_resume,
+ #endif
+-	.dev_attrs	= soundbus_dev_attrs,
++	.dev_groups	= soundbus_dev_groups,
+ };
+ 
+ int soundbus_add_one(struct soundbus_dev *dev)
+--- a/sound/aoa/soundbus/sysfs.c
++++ b/sound/aoa/soundbus/sysfs.c
+@@ -30,13 +30,18 @@ static ssize_t modalias_show(struct devi
+ 
+ 	return length;
+ }
++static DEVICE_ATTR_RO(modalias);
+ 
+ soundbus_config_of_attr (name, "%s\n");
+ soundbus_config_of_attr (type, "%s\n");
+ 
+-struct device_attribute soundbus_dev_attrs[] = {
+-	__ATTR_RO(name),
+-	__ATTR_RO(type),
+-	__ATTR_RO(modalias),
+-	__ATTR_NULL
++static DEVICE_ATTR_RO(type);
++static DEVICE_ATTR_RO(name);
++
++struct attribute * soundbus_dev_attrs[] = {
++	&dev_attr_name.attr,
++	&dev_attr_type.attr,
++	&dev_attr_modalias.attr,
++	NULL,
+ };
++ATTRIBUTE_GROUPS(soundbus_dev);
