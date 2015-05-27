@@ -1,7 +1,16 @@
+Subject: [PATCH] ALSA: aoa: convert bus code to use dev_groups
+
+You should use dev_groups instead of the dev_attrs field of struct
+bus_type. This converts the MDIO bus code to use the correct field.
+
+These modifications were made using Coccinelle.
+
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 ---
- sound/aoa/soundbus/core.c  |    2 +-
- sound/aoa/soundbus/sysfs.c |   15 ++++++++++-----
- 2 files changed, 11 insertions(+), 6 deletions(-)
+ sound/aoa/soundbus/core.c     |    2 +-
+ sound/aoa/soundbus/soundbus.h |    2 +-
+ sound/aoa/soundbus/sysfs.c    |   14 +++++++++-----
+ 3 files changed, 11 insertions(+), 7 deletions(-)
 
 --- a/sound/aoa/soundbus/core.c
 +++ b/sound/aoa/soundbus/core.c
@@ -14,26 +23,35 @@
  };
  
  int soundbus_add_one(struct soundbus_dev *dev)
+--- a/sound/aoa/soundbus/soundbus.h
++++ b/sound/aoa/soundbus/soundbus.h
+@@ -199,6 +199,6 @@ struct soundbus_driver {
+ extern int soundbus_register_driver(struct soundbus_driver *drv);
+ extern void soundbus_unregister_driver(struct soundbus_driver *drv);
+ 
+-extern struct device_attribute soundbus_dev_attrs[];
++extern struct attribute_group *soundbus_dev_groups[];
+ 
+ #endif /* __SOUNDBUS_H */
 --- a/sound/aoa/soundbus/sysfs.c
 +++ b/sound/aoa/soundbus/sysfs.c
-@@ -30,13 +30,18 @@ static ssize_t modalias_show(struct devi
+@@ -30,13 +30,17 @@ static ssize_t modalias_show(struct devi
  
  	return length;
  }
 +static DEVICE_ATTR_RO(modalias);
  
  soundbus_config_of_attr (name, "%s\n");
++static DEVICE_ATTR_RO(name);
  soundbus_config_of_attr (type, "%s\n");
++static DEVICE_ATTR_RO(type);
  
 -struct device_attribute soundbus_dev_attrs[] = {
 -	__ATTR_RO(name),
 -	__ATTR_RO(type),
 -	__ATTR_RO(modalias),
 -	__ATTR_NULL
-+static DEVICE_ATTR_RO(type);
-+static DEVICE_ATTR_RO(name);
-+
-+struct attribute * soundbus_dev_attrs[] = {
++struct attribute *soundbus_dev_attrs[] = {
 +	&dev_attr_name.attr,
 +	&dev_attr_type.attr,
 +	&dev_attr_modalias.attr,
