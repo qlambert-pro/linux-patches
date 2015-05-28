@@ -1,14 +1,14 @@
 Subject: [PATCH] 
 Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 ---
- drivers/sh/superhyway/superhyway-sysfs.c |   26 +++++++++++++++++---------
+ drivers/sh/superhyway/superhyway-sysfs.c |   26 ++++++++++++++++----------
  drivers/sh/superhyway/superhyway.c       |    3 ++-
  include/linux/superhyway.h               |    2 +-
- 3 files changed, 20 insertions(+), 11 deletions(-)
+ 3 files changed, 19 insertions(+), 12 deletions(-)
 
 --- a/drivers/sh/superhyway/superhyway-sysfs.c
 +++ b/drivers/sh/superhyway/superhyway-sysfs.c
-@@ -23,23 +23,31 @@ static ssize_t name##_show(struct device
+@@ -23,23 +23,29 @@ static ssize_t name##_show(struct device
  
  /* VCR flags */
  superhyway_ro_attr(perr_flags, "0x%02x\n", vcr.perr_flags);
@@ -47,8 +47,7 @@ Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 +	&dev_attr_resource.attr,
 +	NULL,
  };
-+ATTRIBUTE_GROUPS(superhyway_dev);
- 
+-
 --- a/drivers/sh/superhyway/superhyway.c
 +++ b/drivers/sh/superhyway/superhyway.c
 @@ -205,11 +205,12 @@ static int superhyway_bus_match(struct d
