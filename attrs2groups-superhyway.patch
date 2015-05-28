@@ -1,4 +1,10 @@
-Subject: [PATCH] 
+Subject: [PATCH] superhyway: convert bus code to use dev_groups
+
+Use dev_groups instead of the dev_attrs field of struct
+bus_type. This converts the MDIO bus code to use the correct field.
+
+These modifications were made using Coccinelle.
+
 Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 ---
  drivers/sh/superhyway/superhyway-sysfs.c |   26 ++++++++++++++++----------
