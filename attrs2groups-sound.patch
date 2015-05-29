@@ -1,7 +1,7 @@
-Subject: [PATCH] ALSA: aoa: convert bus code to use dev_groups
+Subject: [PATCH v2] ALSA: aoa: convert bus code to use dev_groups
 
 Use dev_groups instead of the dev_attrs field of struct
-bus_type. This converts the MDIO bus code to use the correct field.
+bus_type. This converts the soundbus code to use the correct field.
 
 These modifications were made using Coccinelle.
 
