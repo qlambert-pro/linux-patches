@@ -9,7 +9,7 @@ Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 
 --- a/drivers/staging/vt6655/device_main.c
 +++ b/drivers/staging/vt6655/device_main.c
-@@ -535,7 +535,7 @@ static bool device_init_rings(struct vnt
+@@ -533,7 +533,7 @@ static bool device_init_rings(struct vnt
  					 pDevice->sOpts.nRxDescs1 * sizeof(SRxDesc) +
  					 pDevice->sOpts.nTxDescs[0] * sizeof(STxDesc) +
  					 pDevice->sOpts.nTxDescs[1] * sizeof(STxDesc),
@@ -18,7 +18,7 @@ Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
  	if (vir_pool == NULL) {
  		dev_err(&pDevice->pcid->dev, "allocate desc dma memory failed\n");
  		return false;
-@@ -555,7 +555,7 @@ static bool device_init_rings(struct vnt
+@@ -553,7 +553,7 @@ static bool device_init_rings(struct vnt
  						  CB_BEACON_BUF_SIZE +
  						  CB_MAX_BUF_SIZE,
  						  &pDevice->tx_bufs_dma0,
