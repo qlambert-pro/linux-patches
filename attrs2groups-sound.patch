@@ -1,8 +1,8 @@
 In-Reply-To: <1432817307-28380-1-git-send-email-lambert.quentin@gmail.com>
-Subject: [PATCH v3] ALSA: aoa: convert bus code to use dev_groups
+Subject: [PATCH v4] ALSA: aoa: convert bus code to use dev_groups
 
-The dev_attrs field of struct bus_type is going away, sue dev_groups instead.
-This converts the soundbus code to use the correct field.
+The dev_attrs field of struct bus_type is going away, use dev_groups
+instead. This converts the soundbus code to use the correct field.
 
 These modifications were made using Coccinelle.
 
@@ -23,7 +23,7 @@ Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
  
  #endif /* CONFIG_PM */
  
-+/* soundbus_dev_attrs is declared in sysfs.c */
++/* soundbus_dev_attrs is defined in sysfs.c */
 +ATTRIBUTE_GROUPS(soundbus_dev);
  static struct bus_type soundbus_bus_type = {
  	.name		= "aoa-soundbus",
