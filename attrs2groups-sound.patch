@@ -1,28 +1,34 @@
-Subject: [PATCH v2] ALSA: aoa: convert bus code to use dev_groups
+In-Reply-To: <1432817307-28380-1-git-send-email-lambert.quentin@gmail.com>
+Subject: [PATCH v3] ALSA: aoa: convert bus code to use dev_groups
 
-Use dev_groups instead of the dev_attrs field of struct
-bus_type. This converts the soundbus code to use the correct field.
+The dev_attrs field of struct bus_type is going away, sue dev_groups instead.
+This converts the soundbus code to use the correct field.
 
 These modifications were made using Coccinelle.
 
 Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 ---
- sound/aoa/soundbus/core.c     |    3 ++-
+ Changes since v2:
+  - Revert to the version of the patch where the files weren't merge.
+  - Add a comment line to explain where xxx_attrs is defined as suggested by
+    Takashi. 
+ sound/aoa/soundbus/core.c     |    4 +++-
  sound/aoa/soundbus/soundbus.h |    2 +-
  sound/aoa/soundbus/sysfs.c    |   13 ++++++++-----
- 3 files changed, 11 insertions(+), 7 deletions(-)
+ 3 files changed, 12 insertions(+), 7 deletions(-)
 
 --- a/sound/aoa/soundbus/core.c
 +++ b/sound/aoa/soundbus/core.c
-@@ -150,6 +150,7 @@ static int soundbus_device_resume(struct
+@@ -150,6 +150,8 @@ static int soundbus_device_resume(struct
  
  #endif /* CONFIG_PM */
  
++/* soundbus_dev_attrs is declared in sysfs.c */
 +ATTRIBUTE_GROUPS(soundbus_dev);
  static struct bus_type soundbus_bus_type = {
  	.name		= "aoa-soundbus",
  	.probe		= soundbus_probe,
-@@ -160,7 +161,7 @@ static struct bus_type soundbus_bus_type
+@@ -160,7 +162,7 @@ static struct bus_type soundbus_bus_type
  	.suspend	= soundbus_device_suspend,
  	.resume		= soundbus_device_resume,
  #endif
