@@ -1,0 +1,20 @@
+Subject: [PATCH 1/2] crypto: ixp4xx - Fix a "simple if" coding style warning
+
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
+---
+ drivers/crypto/ixp4xx_crypto.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+--- a/drivers/crypto/ixp4xx_crypto.c
++++ b/drivers/crypto/ixp4xx_crypto.c
+@@ -447,9 +447,8 @@ static int init_ixp_crypto(struct device
+ 
+ 	if (!npe_running(npe_c)) {
+ 		ret = npe_load_firmware(npe_c, npe_name(npe_c), dev);
+-		if (ret) {
++		if (ret)
+ 			return ret;
+-		}
+ 		if (npe_recv_message(npe_c, msg, "STATUS_MSG"))
+ 			goto npe_error;
+ 	} else {
