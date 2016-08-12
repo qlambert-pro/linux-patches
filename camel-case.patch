@@ -1,7 +1,12 @@
-Subject: [PATCH 1/2] staging: rts5208/ms.c: change the label name to respect the coding style
+Subject: [PATCH v2 1/2] staging: rts5208/ms.c: change the label name to respect the coding style
+
+This patch changes label names using camel case to snake case as well as giving
+a new name representing what will be done after the label.
 
 Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 ---
+v2: add a commit message
+
  drivers/staging/rts5208/ms.c |   12 ++++++------
  1 file changed, 6 insertions(+), 6 deletions(-)
 

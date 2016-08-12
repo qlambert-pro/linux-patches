@@ -1,4 +1,4 @@
-Subject: [PATCH 2/2] staging: rts5208/ms.c: add missing releases in mg_get_local_EKB and mg_get_ICV
+Subject: [PATCH v2 2/2] staging: rts5208/ms.c: add missing releases in mg_get_local_EKB and mg_get_ICV
 
 mg_get_local_EKB and mg_get_ICV used to return with an error code before
 releasing all resources. This patch add a jump to the appropriate label
