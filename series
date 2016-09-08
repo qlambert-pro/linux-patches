@@ -1,1 +1,2 @@
-hect-ccp-dmaengine.patch
+qat-refactor.patch
+hector-qat_common.patch

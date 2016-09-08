@@ -1,0 +1,25 @@
+Subject: [PATCH v2 2/2] crypto: qat - fix resource release omissions
+
+In certain cases qat_uclo_parse_uof_obj used to return with an error code
+before releasing all resources. This patch add a jump to the appropriate label
+ensuring that the resources are properly released before returning.
+
+This issue was found with Hector.
+
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
+---
+ drivers/crypto/qat/qat_common/qat_uclo.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+--- a/drivers/crypto/qat/qat_common/qat_uclo.c
++++ b/drivers/crypto/qat/qat_common/qat_uclo.c
+@@ -981,7 +981,8 @@ static int qat_uclo_parse_uof_obj(struct
+ 			(PID_MINOR_REV & handle->hal_handle->revision_id);
+ 	if (qat_uclo_check_uof_compat(obj_handle)) {
+ 		pr_err("QAT: UOF incompatible\n");
+-		return -EINVAL;
++		ret = -EINVAL;
++		goto out_err;
+ 	}
+ 	obj_handle->ustore_phy_size = ICP_QAT_UCLO_MAX_USTORE;
+ 	if (!obj_handle->obj_hdr->file_buff ||
