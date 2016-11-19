@@ -1,0 +1,29 @@
+Subject: [PATCH] [SCSI] dpt_i2o: Add a missing call to kfree
+To: Adaptec OEM Raid Solutions <aacraid@adaptec.com>,"James E.J. Bottomley" <jejb@linux.vnet.ibm.com>,"Martin K. Petersen" <martin.petersen@oracle.com>,linux-scsi@vger.kernel.org,linux-kernel@vger.kernel.org,kernel-janitors@vger.kernel.org
+
+Most error branches following the call to kzalloc contain
+a call to kfree. This patch add these calls where they are
+missing.
+
+This issue was found with Hector.
+
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
+
+---
+ drivers/scsi/dpt_i2o.c |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+--- a/drivers/scsi/dpt_i2o.c
++++ b/drivers/scsi/dpt_i2o.c
+@@ -1754,8 +1754,10 @@ static int adpt_i2o_passthru(adpt_hba* p
+ 	sg_offset = (msg[0]>>4)&0xf;
+ 	msg[2] = 0x40000000; // IOCTL context
+ 	msg[3] = adpt_ioctl_to_context(pHba, reply);
+-	if (msg[3] == (u32)-1)
++	if (msg[3] == (u32)-1) {
++		kfree(reply);
+ 		return -EBUSY;
++	}
+ 
+ 	memset(sg_list,0, sizeof(sg_list[0])*pHba->sg_tablesize);
+ 	if(sg_offset) {

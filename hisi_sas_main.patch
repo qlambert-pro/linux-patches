@@ -1,0 +1,30 @@
+Subject: [PATCH] scsi: hisi_sas: Add a missing call to kfree
+To: John Garry <john.garry@huawei.com>,"James E.J. Bottomley" <jejb@linux.vnet.ibm.com>,"Martin K. Petersen" <martin.petersen@oracle.com>,linux-scsi@vger.kernel.org,linux-kernel@vger.kernel.org,kernel-janitors@vger.kernel.org
+
+Most error branches following the call to hisi_sas_shost_alloc contain
+a call to kfree. This patch add these calls where they are
+missing.
+
+This issue was found with Hector.
+
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
+
+---
+ drivers/scsi/hisi_sas/hisi_sas_main.c |    6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+--- a/drivers/scsi/hisi_sas/hisi_sas_main.c
++++ b/drivers/scsi/hisi_sas/hisi_sas_main.c
+@@ -1503,8 +1503,10 @@ int hisi_sas_probe(struct platform_devic
+ 
+ 	arr_phy = devm_kcalloc(dev, phy_nr, sizeof(void *), GFP_KERNEL);
+ 	arr_port = devm_kcalloc(dev, port_nr, sizeof(void *), GFP_KERNEL);
+-	if (!arr_phy || !arr_port)
+-		return -ENOMEM;
++	if (!arr_phy || !arr_port) {
++		rc = -ENOMEM;
++		goto err_out_ha;
++	}
+ 
+ 	sha->sas_phy = arr_phy;
+ 	sha->sas_port = arr_port;

@@ -1,0 +1,26 @@
+Subject: [PATCH] scsi: qla2xxx: Add a missing call to mempool_destroy
+To: qla2xxx-upstream@qlogic.com,"James E.J. Bottomley" <jejb@linux.vnet.ibm.com>,"Martin K. Petersen" <martin.petersen@oracle.com>,linux-scsi@vger.kernel.org,linux-kernel@vger.kernel.org,kernel-janitors@vger.kernel.org
+
+Most error branches following the call to mempool_create_slab_pool contain
+a call to mempool_destroy. This patch add these calls where they are
+missing.
+
+This issue was found with Hector.
+
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
+
+---
+ drivers/scsi/qla2xxx/qla_os.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/scsi/qla2xxx/qla_os.c
++++ b/drivers/scsi/qla2xxx/qla_os.c
+@@ -3489,7 +3489,7 @@ qla2x00_mem_alloc(struct qla_hw_data *ha
+ 				sizeof(struct ct6_dsd), 0,
+ 				SLAB_HWCACHE_ALIGN, NULL);
+ 			if (!ctx_cachep)
+-				goto fail_free_gid_list;
++				goto fail_free_srb_mempool;
+ 		}
+ 		ha->ctx_mempool = mempool_create_slab_pool(SRB_MIN_REQ,
+ 			ctx_cachep);

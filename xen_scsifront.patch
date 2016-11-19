@@ -1,0 +1,25 @@
+Subject: [PATCH] xen-scsifront: Add a missing call to kfree
+To: Juergen Gross <jgross@suse.com>,Boris Ostrovsky <boris.ostrovsky@oracle.com>,David Vrabel <david.vrabel@citrix.com>,"James E.J. Bottomley" <jejb@linux.vnet.ibm.com>,"Martin K. Petersen" <martin.petersen@oracle.com>,xen-devel@lists.xenproject.org,linux-scsi@vger.kernel.org,linux-kernel@vger.kernel.org,kernel-janitors@vger.kernel.org
+
+Most error branches following the call to kmalloc contain
+a call to kfree. This patch add these calls where they are
+missing.
+
+This issue was found with Hector.
+
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
+
+---
+ drivers/scsi/xen-scsifront.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/drivers/scsi/xen-scsifront.c
++++ b/drivers/scsi/xen-scsifront.c
+@@ -627,6 +627,7 @@ static int scsifront_action_handler(stru
+ 
+ 	if (scsifront_enter(info)) {
+ 		spin_unlock_irq(host->host_lock);
++		kfree(shadow);
+ 		return FAILED;
+ 	}
+ 

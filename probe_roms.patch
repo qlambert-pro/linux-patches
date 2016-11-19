@@ -1,0 +1,25 @@
+Subject: [PATCH] isci: Add a missing call to pci_unmap_biosrom
+To: Intel SCU Linux support <intel-linux-scu@intel.com>,Artur Paszkiewicz <artur.paszkiewicz@intel.com>,"James E.J. Bottomley" <jejb@linux.vnet.ibm.com>,"Martin K. Petersen" <martin.petersen@oracle.com>,linux-scsi@vger.kernel.org,linux-kernel@vger.kernel.org,kernel-janitors@vger.kernel.org
+
+Most error branches following the call to pci_map_biosrom contain
+a call to pci_unmap_biosrom. This patch add these calls where
+they are missing.
+
+This issue was found with Hector.
+
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
+
+---
+ drivers/scsi/isci/probe_roms.c |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- a/drivers/scsi/isci/probe_roms.c
++++ b/drivers/scsi/isci/probe_roms.c
+@@ -54,6 +54,7 @@ struct isci_orom *isci_request_oprom(str
+ 	len = pci_biosrom_size(pdev);
+ 	rom = devm_kzalloc(&pdev->dev, sizeof(*rom), GFP_KERNEL);
+ 	if (!rom) {
++		pci_unmap_biosrom(oprom);
+ 		dev_warn(&pdev->dev,
+ 			 "Unable to allocate memory for orom\n");
+ 		return NULL;

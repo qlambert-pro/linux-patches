@@ -1,0 +1,11 @@
+coresight-etm.patch
+stm-core.patch
+probe_roms.patch
+cxgb4i.patch
+dpt_i2o.patch
+xen_scsifront.patch
+aic94xx_hwi.patch
+hisi_sas_main.patch
+qla_os.patch
+pmcraid.patch
+cpqphp_core.patch
