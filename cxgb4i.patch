@@ -15,7 +15,7 @@ Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 
 --- a/drivers/scsi/cxgbi/cxgb4i/cxgb4i.c
 +++ b/drivers/scsi/cxgbi/cxgb4i/cxgb4i.c
-@@ -1410,7 +1410,7 @@ static int init_act_open(struct cxgbi_so
+@@ -1411,7 +1411,7 @@ static int init_act_open(struct cxgbi_so
  	csk->atid = cxgb4_alloc_atid(lldi->tids, csk);
  	if (csk->atid < 0) {
  		pr_err("%s, NO atid available.\n", ndev->name);
