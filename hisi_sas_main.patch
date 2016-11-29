@@ -15,7 +15,7 @@ Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 
 --- a/drivers/scsi/hisi_sas/hisi_sas_main.c
 +++ b/drivers/scsi/hisi_sas/hisi_sas_main.c
-@@ -1503,8 +1503,10 @@ int hisi_sas_probe(struct platform_devic
+@@ -1516,8 +1516,10 @@ int hisi_sas_probe(struct platform_devic
  
  	arr_phy = devm_kcalloc(dev, phy_nr, sizeof(void *), GFP_KERNEL);
  	arr_port = devm_kcalloc(dev, port_nr, sizeof(void *), GFP_KERNEL);

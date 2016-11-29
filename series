@@ -1,5 +1,3 @@
-coresight-etm.patch
-stm-core.patch
 probe_roms.patch
 cxgb4i.patch
 dpt_i2o.patch
