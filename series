@@ -1,7 +1,4 @@
-probe_roms.patch
 cxgb4i.patch
-dpt_i2o.patch
-aic94xx_hwi.patch
 hisi_sas_main.patch
 qla_os.patch
 cpqphp_core.patch
