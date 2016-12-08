@@ -1,0 +1,28 @@
+Subject: [PATCH] staging: lustre: Fix variable type declaration after refactoring
+To: Oleg Drokin <oleg.drokin@intel.com>,Andreas Dilger <andreas.dilger@intel.com>,James Simmons <jsimmons@infradead.org>,Greg Kroah-Hartman <gregkh@linuxfoundation.org>,lustre-devel@lists.lustre.org,devel@driverdev.osuosl.org,linux-kernel@vger.kernel.org,kernel-janitors@vger.kernel.org
+
+A recent clean-up declared och_flags as a int rather than fmode_t. This
+lead to the following sparse warning:
+
+drivers/staging/lustre/lustre/llite/file.c:106:30: warning: restricted
+fmode_t degrades to integer
+
+This patch fixes this issue.
+
+Fixes: 1200991234f7 ("staging: lustre: cleanup lustre_lib.h")
+Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
+---
+ drivers/staging/lustre/lustre/include/obd.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/drivers/staging/lustre/lustre/include/obd.h
++++ b/drivers/staging/lustre/lustre/include/obd.h
+@@ -889,7 +889,7 @@ struct obd_client_handle {
+ 	struct md_open_data	*och_mod;
+ 	struct lustre_handle	 och_lease_handle; /* open lock for lease */
+ 	__u32			 och_magic;
+-	int			 och_flags;
++	fmode_t			 och_flags;
+ };
+ 
+ #define OBD_CLIENT_HANDLE_MAGIC 0xd15ea5ed
