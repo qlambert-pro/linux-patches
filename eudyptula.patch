@@ -1,5 +1,6 @@
-Subject: [PATCH] staging: lustre: Fix variable type declaration after refactoring
+Subject: [PATCH v2] staging: lustre: Fix variable type declaration after refactoring
 To: Oleg Drokin <oleg.drokin@intel.com>,Andreas Dilger <andreas.dilger@intel.com>,James Simmons <jsimmons@infradead.org>,Greg Kroah-Hartman <gregkh@linuxfoundation.org>,lustre-devel@lists.lustre.org,devel@driverdev.osuosl.org,linux-kernel@vger.kernel.org,kernel-janitors@vger.kernel.org
+In-Reply-To: <20161208160759.19649-1-lambert.quentin@gmail.com>
 
 A recent clean-up declared och_flags as a int rather than fmode_t. This
 lead to the following sparse warning:
@@ -9,9 +10,11 @@ fmode_t degrades to integer
 
 This patch fixes this issue.
 
-Fixes: 1200991234f7 ("staging: lustre: cleanup lustre_lib.h")
+Fixes: 0a1200991234f7 ("staging: lustre: cleanup lustre_lib.h")
 Signed-off-by: Quentin Lambert <lambert.quentin@gmail.com>
 ---
+ v2: fixes the referenced sha
+
  drivers/staging/lustre/lustre/include/obd.h |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
